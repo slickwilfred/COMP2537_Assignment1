@@ -242,7 +242,6 @@ app.get('/members', (req,res) => {
   const randomImage = images[Math.floor(Math.random() * images.length)];
 
   if (!email) {
-    if (!email) {
       const html = `
         <h1>Error</h1>
         <p style="color: red;">You must be logged in to access the members page.</p>
