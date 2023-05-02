@@ -180,6 +180,11 @@ app.post('/createUser', async (req,res) => {
 
 //Render the log in page
 app.get('/login', (req,res) => {
+  const wrongPassword = req.query.incorrectPassword;
+  let errorMessage ='';
+  if (wrongPassword) {
+    errorMessage = 'Incorrect password. Please try again.';
+  }
   var html = `
   Log In
   <br/>
@@ -225,10 +230,7 @@ app.post('/login', async (req,res) => {
     res.redirect('/members');
     return;
   } else {
-    var html = `
-    Incorrect password. <a href="/login">Try again</a>`
-    res.send(html);
-    return;
+    res.redirect('/login?incorrectPassword=true');
   }
 
 });
