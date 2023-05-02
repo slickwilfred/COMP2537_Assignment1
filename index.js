@@ -180,11 +180,6 @@ app.post('/createUser', async (req,res) => {
 
 //Render the log in page
 app.get('/login', (req,res) => {
-  const wrongPassword = req.query.incorrectPassword;
-  let errorMessage ='';
-  if (wrongPassword) {
-    errorMessage = 'Incorrect password. Please try again.';
-  }
   var html = `
   Log In
   <br/>
@@ -230,7 +225,10 @@ app.post('/login', async (req,res) => {
     res.redirect('/members');
     return;
   } else {
-    res.redirect('/login?incorrectPassword=true');
+    var html = `
+    Incorrect password. <a href="/login">Try again</a>`
+    res.send(html);
+    return;
   }
 
 });
@@ -244,7 +242,14 @@ app.get('/members', (req,res) => {
   const randomImage = images[Math.floor(Math.random() * images.length)];
 
   if (!email) {
-    res.redirect('/login');
+    if (!email) {
+      const html = `
+        <h1>Error</h1>
+        <p style="color: red;">You must be logged in to access the members page.</p>
+        <br/>
+        <button onclick="window.location.href = '/login';">Log In</button>
+      `;
+      res.send(html);
     return;
   } else {
     var html = `
